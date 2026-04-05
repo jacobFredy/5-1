@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Оформлення замовлення</title>
+<style>
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+    margin: 0;
+    padding: 0;
+}
+.checkout {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.checkout h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
+}
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+}
+.form-group input:focus {
+    outline: none;
+    border-color: #111;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+#order-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #111, #444);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 15px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+#order-btn:hover {
+    background: linear-gradient(135deg, #222, #666);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+#order-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+.order-summary {
+    margin-top: 25px;
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+.order-summary .item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+.order-summary .total {
+    font-weight: 700;
+    font-size: 18px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+#success-msg {
+    display:none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: 700;
+    z-index: 9999;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+/* Списки автопошуку */
+.autocomplete-list {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    top: 45px;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.autocomplete-list div {
+    padding: 10px;
+    cursor: pointer;
+}
+.autocomplete-list div:hover {
+    background: #f0f0f0;
+}
+</style>
+</head>
+<body>
+
+<div class="checkout">
+    <h1>Оформлення замовлення</h1>
+
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Ім'я">
+    </div>
+
+    <div class="form-group">
+        <input type="tel" id="phone" placeholder="Телефон">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="city" placeholder="Місто">
+        <div id="city-list" class="autocomplete-list"></div>
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="branch" placeholder="Відділення Нової Пошти">
+        <div id="branch-list" class="autocomplete-list"></div>
+    </div>
+
+    <button id="order-btn">Оформити замовлення</button>
+
+    <div class="order-summary" id="order-summary"></div>
+</div>
+
+<div id="success-msg">Замовлення відправлено!</div>
+
+<script>
+// ===== CART =====
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+const summaryItems = document.getElementById('order-summary');
+let total = 0;
+summaryItems.innerHTML = '';
+cart.forEach(item=>{
+    total += item.price * item.quantity;
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `${item.name} x${item.quantity} <span>${item.price * item.quantity} грн</span>`;
+    summaryItems.appendChild(div);
+});
+const totalDiv = document.createElement('div');
+totalDiv.className = 'item total';
+totalDiv.textContent = `Всього: ${total} грн`;
+summaryItems.appendChild(totalDiv);
+
+// ===== TELEGRAM SEND =====
+document.getElementById('order-btn').addEventListener('click', async ()=>{
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const branch = document.getElementById('branch').value.trim();
+
+    if(!name || !phone || !city || !branch){
+        alert('Заповни всі поля');
+        return;
+    }
+
+    let message = `🛒 НОВЕ ЗАМОВЛЕННЯ\n\n👤 ${name}\n📞 ${phone}\n📍 ${city}, ${branch}\n\n`;
+    cart.forEach(item=>{ message += `${item.name} x${item.quantity}\n`; });
+    message += `\n💰 Сума: ${total} грн`;
+
+    const TOKEN = "8587678939:AAEPhzJHAgCNIdLudispbfkgISMyaKiFYbs";
+    const CHAT_ID = "1885493899";
+
+    await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({chat_id: CHAT_ID, text: message})
+    });
+
+    const successMsg = document.getElementById('success-msg');
+    successMsg.style.display = 'block';
+    setTimeout(()=>{
+        successMsg.style.display = 'none';
+        localStorage.removeItem('cart');
+        window.location.href = 'index.html';
+    }, 2000);
+});
+
+// ===== AUTOCOMPLETE NOVA POSHTA =====
+let debounceTimer;
+const cityInput = document.getElementById('city');
+const branchInput = document.getElementById('branch');
+const cityList = document.getElementById('city-list');
+const branchList = document.getElementById('branch-list');
+let cities = [];
+let branches = [];
+
+async function fetchCities(query){
+    try{
+        const res = await fetch('https://api.novaposhta.ua/v2.0/json/',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+                apiKey:"459ee7f5ba619794395b6ec259611c7a",
+                modelName:"Address",
+                calledMethod:"searchSettlements",
+                methodProperties:{CityName: query, Limit: 5}
+            })
+        });
+        const data = await res.json();
+        if(data.success){
+            cities = data.data[0]?.Addresses || [];
+            showCityList();
+        }
+    }catch(err){ console.error(err); }
+}
+
+function showCityList(){
+    cityList.innerHTML = '';
+    cities.forEach(c=>{
+        const div = document.createElement('div');
+        div.textContent = c.Present;
+        div.addEventListener('click', ()=>{
+            cityInput.value = c.Present;
+            cityList.innerHTML = '';
+            fetchBranches(c.Ref);
+        });
+        cityList.appendChild(div);
+    });
+}
+
+async function fetchBranches(cityRef){
+    try{
+        const res = await fetch('https://api.novaposhta.ua/v2.0/json/',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+                apiKey:"459ee7f5ba619794395b6ec259611c7a",
+                modelName:"AddressGeneral",
+                calledMethod:"getWarehouses",
+                methodProperties:{CityRef: cityRef}
+            })
+        });
+        const data = await res.json();
+        if(data.success){
+            branches = data.data;
+            showBranchList();
+        }
+    }catch(err){ console.error(err); }
+}
+
+function showBranchList(){
+    branchList.innerHTML = '';
+    branches.forEach(b=>{
+        const div = document.createElement('div');
+        div.textContent = b.Description;
+        div.addEventListener('click', ()=>{
+            branchInput.value = b.Description;
+            branchList.innerHTML = '';
+        });
+        branchList.appendChild(div);
+    });
+}
+
+// DEBOUNCE INPUT
+cityInput.addEventListener('input', ()=>{
+    clearTimeout(debounceTimer);
+    if(cityInput.value.length < 2){ cityList.innerHTML=''; return; }
+    debounceTimer = setTimeout(()=>{ fetchCities(cityInput.value); }, 300);
+});
+</script>
+
+</body>
+</html>

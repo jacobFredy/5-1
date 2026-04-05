@@ -1,0 +1,336 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bag | Nike Cart</title>
+<style>
+/* ===== NIKE STYLE CART PRO ===== */
+
+body{
+  margin:0;
+  background:#fff;
+  font-family:'Helvetica Neue', Arial, sans-serif;
+  color:#111;
+}
+
+.nike-cart{
+  max-width:1100px;
+  margin:60px auto;
+  padding:20px;
+}
+
+/* TITLE */
+.nike-cart__title{
+  font-size:42px;
+  font-weight:800;
+  letter-spacing:-1px;
+  margin-bottom:40px;
+}
+
+/* GRID */
+.nike-cart__content{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:50px;
+}
+
+/* ITEMS */
+.nike-cart__items{
+  border-top:1px solid #eee;
+}
+
+/* ITEM */
+.nike-cart__item{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:20px 0;
+  border-bottom:1px solid #f1f1f1;
+  transition:0.3s;
+}
+
+.nike-cart__item:hover{
+  transform:scale(1.01);
+}
+
+/* IMAGE */
+.nike-cart__item img{
+  width:90px;
+  height:90px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+/* TEXT */
+.nike-cart__item-title{
+  font-size:18px;
+  font-weight:600;
+}
+
+.nike-cart__item-meta{
+  font-size:13px;
+  color:#777;
+  margin-top:4px;
+}
+
+/* QTY INPUT */
+.nike-cart__item-qty input{
+  width:60px;
+  padding:6px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  text-align:center;
+  font-weight:600;
+  transition:0.2s;
+}
+
+.nike-cart__item-qty input:focus{
+  border-color:#111;
+  outline:none;
+}
+
+/* REMOVE */
+.nike-cart__remove{
+  cursor:pointer;
+  font-weight:700;
+  margin-left:10px;
+  transition:0.2s;
+}
+
+.nike-cart__remove:hover{
+  color:#c00;
+  transform:scale(1.2);
+}
+
+/* SUMMARY */
+.nike-cart__summary{
+  background:#fafafa;
+  padding:25px;
+  border-radius:12px;
+  border:1px solid #eee;
+  position:sticky;
+  top:100px;
+  height:fit-content;
+}
+
+.nike-cart__summary h2{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+/* ROWS */
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:12px;
+  font-size:15px;
+}
+
+.summary-row.total{
+  font-size:20px;
+  font-weight:700;
+  margin-top:15px;
+  border-top:1px solid #ddd;
+  padding-top:10px;
+}
+
+/* CHECKOUT BUTTON */
+.nike-cart__checkout{
+  width:100%;
+  padding:14px;
+  margin-top:25px;
+  background:#111;
+  color:#fff;
+  border:none;
+  font-size:16px;
+  font-weight:700;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.nike-cart__checkout:hover{
+  background:#000;
+  transform:scale(1.02);
+}
+
+/* EMPTY */
+.nike-cart__empty{
+  padding:40px 0;
+  text-align:center;
+  color:#777;
+  font-size:18px;
+}
+
+/* MOBILE */
+@media (max-width: 768px){
+  .nike-cart__content{
+    grid-template-columns:1fr;
+  }
+
+  .nike-cart__summary{
+    position:static;
+  }
+
+  .nike-cart__item{
+    align-items:flex-start;
+  }
+}
+.back-btn{
+  display:inline-block;
+  margin:20px 0 0 20px;
+  text-decoration:none;
+  color:#111;
+  font-size:16px;
+  font-weight:600;
+  transition:0.2s;
+}
+
+.back-btn:hover{
+  opacity:0.6;
+  transform:translateX(-3px);
+}
+</style>
+</head>
+<body>
+
+  <a href="index.html" class="back-btn">← Back to shop</a>
+<div id="cart" class="nike-cart">
+  <h1 class="nike-cart__title">Bag</h1>
+  <div class="nike-cart__content">
+    <div class="nike-cart__items" id="cart-items">
+      <p class="nike-cart__empty">Your bag is empty</p>
+    </div>
+    <div class="nike-cart__summary">
+      <h2>Order Summary</h2>
+      <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">0 грн</span></div>
+      <div class="summary-row"><span>Estimated Delivery</span><span id="cart-delivery">0 грн</span></div>
+      <div class="summary-row"><span>Estimated Tax</span><span id="cart-tax">0 грн</span></div>
+      <div class="summary-row total"><span>Total</span><span id="cart-total">0 грн</span></div>
+      <button class="nike-cart__checkout">Checkout</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ======== CART LOGIC PRO ========
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// 🔥 Нормалізація (фікс якщо quantity нема)
+cart = cart.map(item => ({
+  ...item,
+  quantity: item.quantity || 1
+}));
+
+// 🛠 Оновлення UI
+function updateCartUI() {
+  const cartItemsContainer = document.getElementById('cart-items');
+  const cartSubtotalEl = document.getElementById('cart-subtotal');
+  const cartDeliveryEl = document.getElementById('cart-delivery');
+  const cartTaxEl = document.getElementById('cart-tax');
+  const cartTotalEl = document.getElementById('cart-total');
+
+  cartItemsContainer.innerHTML = '';
+
+  if (!cart.length) {
+    cartItemsContainer.innerHTML = `
+      <div class="nike-cart__empty">
+        <p>Your bag is empty 🥀</p>
+      </div>
+    `;
+    cartSubtotalEl.textContent = '0 грн';
+    cartDeliveryEl.textContent = '0 грн';
+    cartTaxEl.textContent = '0 грн';
+    cartTotalEl.textContent = '0 грн';
+    return;
+  }
+
+  let subtotal = 0;
+
+  cart.forEach(item => {
+    subtotal += item.price * item.quantity;
+
+    const itemEl = document.createElement('div');
+    itemEl.className = 'nike-cart__item';
+
+    itemEl.innerHTML = `
+      <img src="${item.images[0]}" alt="${item.name}">
+      <div class="nike-cart__item-details">
+        <div class="nike-cart__item-title">${item.name}</div>
+        <div class="nike-cart__item-meta">Size: ${item.size || '—'}</div>
+      </div>
+
+      <div class="nike-cart__item-qty">
+        <input type="number" min="1" value="${item.quantity}" data-id="${item.id}">
+      </div>
+
+      <div>
+        ${item.price * item.quantity} грн
+        <span class="nike-cart__remove" data-id="${item.id}">✕</span>
+      </div>
+    `;
+
+    cartItemsContainer.appendChild(itemEl);
+  });
+
+  const delivery = subtotal > 0 ? 100 : 0;
+  const tax = Math.round(subtotal * 0.05);
+
+  cartSubtotalEl.textContent = subtotal + ' грн';
+  cartDeliveryEl.textContent = delivery + ' грн';
+  cartTaxEl.textContent = tax + ' грн';
+  cartTotalEl.textContent = (subtotal + delivery + tax) + ' грн';
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// 🔥 Зміна кількості
+document.getElementById('cart-items').addEventListener('change', e => {
+  if (e.target.tagName === 'INPUT') {
+    const id = parseInt(e.target.dataset.id);
+    const qty = parseInt(e.target.value);
+
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+
+    if (qty <= 0) {
+      cart = cart.filter(i => i.id !== id);
+    } else {
+      item.quantity = qty;
+    }
+
+    updateCartUI();
+  }
+});
+
+// ❌ Видалення
+document.getElementById('cart-items').addEventListener('click', e => {
+  if (e.target.classList.contains('nike-cart__remove')) {
+    const id = parseInt(e.target.dataset.id);
+    cart = cart.filter(i => i.id !== id);
+    updateCartUI();
+  }
+});
+
+// 🔥 CHECKOUT
+const checkoutBtn = document.querySelector('.nike-cart__checkout');
+
+if (checkoutBtn) {
+  checkoutBtn.addEventListener('click', () => {
+    if (!cart.length) {
+      alert('Корзина пуста');
+      return;
+    }
+
+    window.location.href = 'checkout.html';
+  });
+}
+
+// 🚀 INIT
+updateCartUI();
+</script>
+
+</body>
+</html>

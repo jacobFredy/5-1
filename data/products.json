@@ -1,0 +1,242 @@
+[
+    {
+        "id": 1,
+        "name": "Vintage Wash Denim",
+        "price": 1190,
+        "images": [
+            "https://i.postimg.cc/wMMt4jw1/avif.avif",
+            "https://i.postimg.cc/SNJQhM7p/avif.avif",
+            "https://i.postimg.cc/tRtMtC6j/avif.avif"
+        ],
+        "category": "jeans",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 2,
+        "name": "Washed Vintage Tee",
+        "price": 790,
+        "images": [
+            "https://i.postimg.cc/pLXbn51t/avif.avif",
+            "https://i.postimg.cc/qqRdGPM5/avif.avif"
+        ],
+        "category": "tshirt",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 3,
+        "name": "Street Basic Hoodie",
+        "price": 1200,
+        "images": [
+            "https://i.postimg.cc/0NSLf9M2/avif.avif",
+            "https://i.postimg.cc/vZ1hjQ4h/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 4,
+        "name": "Vintage Fade Hoodie",
+        "price": 750,
+        "images": [
+            "https://i.postimg.cc/3xkj4BWv/avif.avif",
+            "https://i.postimg.cc/kXGv6nFv/avif.avif",
+            "https://i.postimg.cc/SKF6vcFx/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 5,
+        "name": "Minimal Logo Tee",
+        "price": 900,
+        "images": [
+            "https://i.postimg.cc/mDmhyv5C/avif.avif",
+            "https://i.postimg.cc/KY2TNFLd/avif.avif",
+            "https://i.postimg.cc/4NvhBybg/avif.avif"
+        ],
+        "category": "tshirt",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 6,
+        "name": "Baldwin Fit Tee",
+        "price": 790,
+        "images": [
+            "https://img.kwcdn.com/product/open/5b5012960e7646ac9cb8787dd60facf0-goods.jpeg?imageView2/2/w/800/q/70/format/avif",
+            "https://i.postimg.cc/fbCVfdMY/avif.avif"
+        ],
+        "category": "tshirt",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 7,
+        "name": "Alley Denim",
+        "price": 900,
+        "images": [
+            "https://i.postimg.cc/2SntLr1g/avif.avif",
+            "https://i.postimg.cc/g0g0ZPKM/avif.avif",
+            "https://i.postimg.cc/4nR4g4JN/avif.avif",
+            "https://i.postimg.cc/9QttR1Nt/avif.avif"
+        ],
+        "category": "jeans",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 8,
+        "name": "Trap Zone zip",
+        "price": 1200,
+        "images": [
+            "https://i.postimg.cc/MKcD2XgR/avif.avif",
+            "https://i.postimg.cc/mZ1wKtvX/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 9,
+        "name": "Night Grip",
+        "price": 750,
+        "images": [
+            "https://i.postimg.cc/8C3vbbPn/avif.avif",
+            "https://i.postimg.cc/gkJYYbKq/avif.avif",
+            "https://i.postimg.cc/ncCtyYFf/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 10,
+        "name": "Walk with God",
+        "price": 900,
+        "images": [
+            "https://i.postimg.cc/tg1Z7Vtr/avif.avif",
+            "https://i.postimg.cc/mkTg3cCk/avif.avif"
+        ],
+        "category": "tshirt",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 11,
+        "name": "Hood Pass",
+        "price": 900,
+        "images": [
+            "https://i.postimg.cc/W15YTxXM/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 12,
+        "name": "Accessory Item",
+        "price": 100,
+        "images": [
+            "https://i.postimg.cc/placeholder.png"
+        ],
+        "category": "accessories",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":0},{"size":"L","stock":2}]
+    },
+    {
+        "id": 13,
+        "name": "Urban Track Hoodie",
+        "price": 1250,
+        "images": [
+            "https://i.postimg.cc/5yR1kP9F/avif.avif",
+            "https://i.postimg.cc/dVvgh1Z8/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":1},{"size":"M","stock":2},{"size":"L","stock":3}]
+    },
+    {
+        "id": 14,
+        "name": "Classic Blue Jeans",
+        "price": 1100,
+        "images": [
+            "https://i.postimg.cc/6pH6JvP0/avif.avif",
+            "https://i.postimg.cc/7hFZ1gHt/avif.avif"
+        ],
+        "category": "jeans",
+        "sizes": [{"size":"S","stock":2},{"size":"M","stock":2},{"size":"L","stock":2}]
+    },
+    {
+        "id": 15,
+        "name": "Logo Sweat Tee",
+        "price": 850,
+        "images": [
+            "https://i.postimg.cc/8z9kP5Xg/avif.avif"
+        ],
+        "category": "tshirt",
+        "sizes": [{"size":"S","stock":0},{"size":"M","stock":1},{"size":"L","stock":2}]
+    },
+    {
+        "id": 16,
+        "name": "Winter Parka Hoodie",
+        "price": 1500,
+        "images": [
+            "https://i.postimg.cc/7YVdJkP3/avif.avif",
+            "https://i.postimg.cc/LXkKdfk2/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":1},{"size":"M","stock":1},{"size":"L","stock":1}]
+    },
+    {
+        "id": 17,
+        "name": "Relax Fit Tee",
+        "price": 780,
+        "images": [
+            "https://i.postimg.cc/9YxkF7Tn/avif.avif"
+        ],
+        "category": "tshirt",
+        "sizes": [{"size":"S","stock":2},{"size":"M","stock":2},{"size":"L","stock":2}]
+    },
+    {
+        "id": 18,
+        "name": "Street Denim Shorts",
+        "price": 950,
+        "images": [
+            "https://i.postimg.cc/0yH3VxYq/avif.avif",
+            "https://i.postimg.cc/1z9kDq5L/avif.avif"
+        ],
+        "category": "jeans",
+        "sizes": [{"size":"S","stock":1},{"size":"M","stock":2},{"size":"L","stock":2}]
+    },
+    {
+        "id": 19,
+        "name": "Capsule Tee",
+        "price": 890,
+        "images": [
+            "https://i.postimg.cc/2Sg1k5kB/avif.avif"
+        ],
+        "category": "tshirt",
+        "sizes": [{"size":"S","stock":1},{"size":"M","stock":2},{"size":"L","stock":1}]
+    },
+    {
+        "id": 20,
+        "name": "Minimalist Beanie",
+        "price": 250,
+        "images": [
+            "https://i.postimg.cc/placeholder2.png"
+        ],
+        "category": "accessories",
+        "sizes": [{"size":"S","stock":2},{"size":"M","stock":2},{"size":"L","stock":2}]
+    },
+    {
+        "id": 21,
+        "name": "Trail Running Hoodie",
+        "price": 1300,
+        "images": [
+            "https://i.postimg.cc/5vP1r7Hz/avif.avif"
+        ],
+        "category": "hoodie",
+        "sizes": [{"size":"S","stock":2},{"size":"M","stock":1},{"size":"L","stock":1}]
+    },
+    {
+        "id": 22,
+        "name": "Classic Sunglasses",
+        "price": 350,
+        "images": [
+            "https://i.postimg.cc/placeholder3.png"
+        ],
+        "category": "accessories",
+        "sizes": [{"size":"S","stock":1},{"size":"M","stock":1},{"size":"L","stock":1}]
+    }
+]

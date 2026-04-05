@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>7TH | Product</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{
+    --bg:#f5f5f5;
+    --text:#111;
+    --accent:#333;
+    --highlight:#312f2e; /* теплий акцент */
+    --shadow: rgba(0,0,0,0.15);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
+body{background: var(--bg); color: var(--text); line-height:1.5;}
+
+/* Sidebar / logo */
+.logo{
+    position:fixed; top:20px; left:20px; font-weight:700; cursor:pointer; z-index:1000;
+    font-size:24px; color: var(--accent);
+    transition: color 0.3s ease;
+}
+.logo:hover{ color: var(--highlight); }
+
+.sidebar{
+    position:fixed; top:0; left:-280px; width:280px; height:100%; background:#fff;
+    padding:40px 25px; transition:0.4s; z-index:999;
+    color: var(--accent);
+    box-shadow: 2px 0 10px var(--shadow);
+}
+.sidebar a{
+    display:block; color:var(--accent); text-decoration:none;
+    margin:20px 0; font-weight:600; font-size:16px;
+    letter-spacing:0.5px; transition:0.3s;
+}
+.sidebar a:hover{ color:var(--highlight); }
+
+/* Container */
+.container{
+    max-width:1400px; margin:120px auto; display:grid; grid-template-columns:1fr 1fr; gap:80px;
+    padding:0 40px;
+}
+
+/* Product images */
+.product-images{
+    position:relative; border-radius:20px; overflow:hidden;
+    box-shadow:0 20px 60px var(--shadow);
+}
+.product-images img{
+    width:100%; height:auto; display:none; transition: all 0.5s ease;
+}
+.product-images img.active{ display:block; border-radius:20px; }
+
+.arrow{
+    position:absolute; top:50%; transform:translateY(-50%);
+    font-size:38px; color:var(--accent); cursor:pointer; user-select:none;
+    background:rgba(0,0,0,0.05); padding:12px; border-radius:50%;
+    transition:0.3s;
+}
+.arrow:hover{ background:var(--highlight); color:#fff; }
+.arrow.left{ left:15px; }
+.arrow.right{ right:15px; }
+
+/* Product info */
+h1{ font-family:'Bebas Neue'; font-size:60px; margin-bottom:20px; line-height:1.1; text-transform:uppercase; letter-spacing:1px; }
+.price{ font-size:36px; color:var(--highlight); font-weight:800; margin:20px 0; position:relative; }
+.price::before{ content:"₴"; font-size:28px; position:absolute; left:-22px; top:2px; color:var(--highlight);}
+.instock{ color:green; font-weight:700; margin-bottom:20px; }
+.out{ color:red; font-weight:700; margin-bottom:20px; }
+select{
+    width:100%; padding:16px; margin:12px 0; border-radius:12px;
+    border:1px solid #ccc; font-weight:600; font-size:14px;
+    background:#fff; color:var(--accent);
+    transition: all 0.3s ease;
+}
+select:hover{ border-color: var(--highlight); }
+
+button{
+    width:100%; padding:20px;
+    border:2px solid var(--highlight); border-radius:50px;
+    background:transparent; color:var(--highlight);
+    font-weight:700; font-size:16px; cursor:pointer;
+    transition: all 0.4s ease, transform 0.2s ease;
+}
+button:hover{
+    background:var(--highlight); color:#fff;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px var(--shadow);
+}
+
+/* Toast / Success */
+#toast, #success-msg{
+    position:fixed; bottom:25px; right:25px;
+    background:var(--highlight); color:#fff; padding:15px 30px;
+    border-radius:50px; font-weight:700; display:none; box-shadow:0 10px 25px var(--shadow);
+    transition: all 0.3s ease;
+}
+
+/* Similar products */
+.product-cards{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:40px; max-width:1400px; margin:80px auto; padding:0 40px;
+}
+.card{
+    background:#fff; border-radius:20px; overflow:hidden;
+    box-shadow:0 15px 40px var(--shadow); transition:0.4s; cursor:pointer;
+    display:flex; flex-direction:column; position:relative;
+}
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 50px var(--shadow);
+}
+.card img{
+    width:100%; height:300px; object-fit:cover; transition: transform 0.3s ease;
+}
+.card img:hover{ transform:scale(1.05); }
+.card h3{
+    font-family:'Bebas Neue'; margin:15px; font-size:18px;
+    color:var(--accent); text-transform:uppercase; letter-spacing:1px;
+}
+.card p{
+    color:var(--highlight); font-weight:700; margin:0 15px 15px 15px;
+}
+.card button{
+    margin:0 15px 15px 15px;
+    border-radius:50px; border:2px solid var(--highlight);
+    background:transparent; color:var(--highlight);
+    font-weight:700; padding:12px; transition: all 0.3s ease;
+}
+.card button:hover{
+    background:var(--highlight); color:#fff;
+    transform: translateY(-3px);
+    box-shadow:0 10px 25px var(--shadow);
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .container{ grid-template-columns:1fr; gap:50px; margin-top:100px; }
+    h1{ font-size:44px; }
+    .price{ font-size:28px; }
+    .card img{ height:250px; }
+}
+select option:disabled{
+  color:#aaa;
+}
+</style>
+</head>
+<body>
+
+<div class="logo" id="logo">☰</div>
+<div class="sidebar" id="sidebar">
+    <a href="index.html">Головна</a>
+    <a href="cart.html">Замовлення</a>
+</div>
+
+<div class="container">
+    <div class="product-images" id="productImages">
+        <div class="arrow left" id="prev">&lt;</div>
+        <div class="arrow right" id="next">&gt;</div>
+    </div>
+    <div>
+        <h1 id="productName"></h1>
+        <div class="price" id="productPrice"></div>
+        <p id="stock"></p>
+
+        <label>Розмір:</label>
+        <select id="sizeSelect"></select>
+
+        <label>Тип:</label>
+        <select id="typeSelect"></select>
+
+        <button id="addToCart">Додати в корзину</button>
+    </div>
+</div>
+
+<h2 style="text-align:center; margin-top:80px; color:var(--accent); letter-spacing:2px;">Схожі товари</h2>
+<div class="product-cards" id="productCards"></div>
+
+<!-- Footer / Nike-style -->
+<footer style="background:#111; color:#fff; padding:60px 0; text-align:center; margin-top:80px;">
+    <p style="font-size:24px; font-weight:700; margin-bottom:20px;">Follow for new drop</p>
+    <div style="display:flex; justify-content:center; gap:40px; font-size:28px;">
+        <a href="https://www.instagram.com" target="_blank" style="color:#fff; transition:0.3s;">📸</a>
+        <a href="https://t.me" target="_blank" style="color:#fff; transition:0.3s;">✈️</a>
+    </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+// JS залишається як у попередньому варіанті
+const params = new URLSearchParams(window.location.search);
+const id = Number(params.get("id"));
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+fetch("data/products.json")
+.then(res=>res.json())
+.then(products=>{
+    const product = products.find(p=>p.id===id);
+    if(!product){ document.body.innerHTML="<h1 style='text-align:center'>Товар не знайдено</h1>"; return; }
+
+    document.getElementById("productName").textContent = product.name;
+    document.getElementById("productPrice").textContent = product.price + " грн";
+
+    const stock = document.getElementById("stock");
+    if(product.inStock !== undefined){
+        stock.textContent = product.inStock ? "В наявності" : "Немає в наявності";
+        stock.className = product.inStock ? "instock" : "out";
+    }
+
+    const sizeSelect = document.getElementById("sizeSelect");
+    sizeSelect.innerHTML='';
+    product.sizes?.forEach(s=>{
+    if(s.stock > 0){
+        sizeSelect.innerHTML += `<option value="${s.size}">${s.size}</option>`;
+    } else {
+        sizeSelect.innerHTML += `<option disabled>${s.size} (нема)</option>`;
+    }
+});
+
+    const typeSelect = document.getElementById("typeSelect");
+    typeSelect.innerHTML='';
+    product.type?.forEach(t=>{ typeSelect.innerHTML += `<option>${t}</option>`; });
+
+    const productImages = document.getElementById("productImages");
+    let current=0;
+    const imgElems=[];
+    product.images.forEach((src,i)=>{
+        const img=document.createElement("img");
+        img.src=src;
+        if(i===0) img.classList.add("active");
+        productImages.appendChild(img);
+        imgElems.push(img);
+    });
+
+    document.getElementById("prev").addEventListener("click", ()=>{
+        imgElems[current].classList.remove("active");
+        current=(current-1+imgElems.length)%imgElems.length;
+        imgElems[current].classList.add("active");
+    });
+    document.getElementById("next").addEventListener("click", ()=>{
+        imgElems[current].classList.remove("active");
+        current=(current+1)%imgElems.length;
+        imgElems[current].classList.add("active");
+    });
+
+    document.getElementById("addToCart").addEventListener("click", ()=>{
+
+    const selectedSize = sizeSelect.value;
+
+    // ❗ якщо не вибраний або disabled
+    if(!selectedSize){
+        alert("Вибери доступний розмір");
+        return;
+    }
+
+    const sizeObj = product.sizes.find(s => s.size === selectedSize);
+
+    // ❌ якщо нема в наявності
+    if(!sizeObj || sizeObj.stock <= 0){
+        alert("Цей розмір недоступний");
+        return;
+    }
+
+    // 🛒 додаємо
+    cart.push({
+        ...product,
+        selectedSize: selectedSize,
+        selectedType: typeSelect.value
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    showToast("Додано в корзину 🔥");
+});
+    const cardsContainer=document.getElementById("productCards");
+    cardsContainer.innerHTML='';
+    // Ліміт схожих товарів 6
+    products.filter(p=>p.id!==id).slice(0,6).forEach(p=>{
+        const card=document.createElement("div");
+        card.className="card";
+        card.innerHTML=`
+            <img src="${p.images[0]}">
+            <div>
+                <h3>${p.name}</h3>
+                <p>${p.price} грн</p>
+                <button onclick="window.location='product.html?id=${p.id}'">Деталі</button>
+            </div>
+        `;
+        cardsContainer.appendChild(card);
+    });
+});
+
+// Toast
+let toastTimeout;
+function showToast(text){
+    const toast=document.getElementById("toast");
+    toast.textContent=text;
+    toast.style.display="block";
+    clearTimeout(toastTimeout);
+    toastTimeout=setTimeout(()=>{ toast.style.display="none"; },3000);
+}
+
+// Sidebar
+const logo=document.getElementById("logo");
+const sidebar=document.getElementById("sidebar");
+let timeout;
+function openSidebar(){ clearTimeout(timeout); sidebar.style.left="0"; }
+function closeSidebar(){ timeout=setTimeout(()=>{ sidebar.style.left="-280px"; },200);}
+logo.addEventListener("mouseenter",openSidebar);
+logo.addEventListener("mouseleave",closeSidebar);
+sidebar.addEventListener("mouseenter",openSidebar);
+sidebar.addEventListener("mouseleave",closeSidebar);
+logo.addEventListener("click",()=>{ sidebar.style.left = sidebar.style.left==="0px"?"-280px":"0"; });
+</script>
+</body>
+</html>
